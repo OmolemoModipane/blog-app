@@ -345,3 +345,56 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
+
+/* Add these styles to your styles.css */
+
+.new-posts-section {
+    margin: 20px 0;
+  }
+  
+  .new-posts-section h1 {
+    font-size: 2em;
+    color: #6a0dad; /* Purple color */
+    margin-bottom: 10px;
+  }
+  
+  .new-posts-section .blog-post {
+    margin-bottom: 20px;
+  }
+  
+  .new-posts-section .blog-post img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .new-posts-section .post-content {
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .recent-blogs-section {
+    margin: 20px 0;
+  }
+  
+  .recent-blogs-section h1 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .recent-blogs-section .blog-post {
+    margin-bottom: 20px;
+  }
+  
+  .recent-blogs-section .blog-post img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .recent-blogs-section .post-content {
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+  }
+  
