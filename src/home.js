@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { BrowserRouter as Router, Route, Routes, Link, useParams } from 'react-router-dom';
+import { faComment, faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { BrowserRouter as Router, Route, Routes, Link, useParams, useNavigate } from 'react-router-dom';
 import './styles.css';
-import Preloader from './Preloader'; 
+import Preloader from './Preloader';
 
 function BlogPostDetail({ blogPosts }) {
   const { id } = useParams();
   const [post, setPost] = useState(null);
 
   useEffect(() => {
-    console.log("Post ID from URL:", id); // Debug log
     const postDetail = blogPosts.find(post => post.id === parseInt(id));
-    console.log("Post Detail:", postDetail); // Debug log
     setPost(postDetail);
   }, [id, blogPosts]);
 
@@ -53,11 +51,10 @@ function Home() {
   });
   const [newComment, setNewComment] = useState('');
   const [selectedPostId, setSelectedPostId] = useState(null);
-  const [showCreatePostModal, setShowCreatePostModal] = useState(false); // State for create post modal
+  const [showCreatePostModal, setShowCreatePostModal] = useState(false); 
   const [isLoading, setIsLoading] = useState(true);
-  const [showCommentModal, setShowCommentModal] = useState(false); // State for comment modal
+  const [showCommentModal, setShowCommentModal] = useState(false);
 
-  // State to store new posts
   const [newPosts, setNewPosts] = useState([]);
 
   useEffect(() => {
@@ -68,11 +65,9 @@ function Home() {
     axios.get('http://localhost:3001/api/posts')
       .then((response) => {
         const posts = response.data;
-        console.log("Fetched posts:", posts); // Debug log
         setBlogPosts(posts);
         setFilteredPosts(posts);
 
-        // Assuming posts have a 'createdAt' field to determine new posts
         const recentPosts = posts.filter(post => new Date(post.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
         setNewPosts(recentPosts);
       })
@@ -112,7 +107,6 @@ function Home() {
     if (selectedPostId !== null) {
       axios.post(`http://localhost:3001/api/posts/${selectedPostId}/comments`, { content: newComment })
         .then((response) => {
-          console.log("Comment added:", response.data); // Debug log
           setBlogPosts((prevPosts) =>
             prevPosts.map((post) =>
               post.id === selectedPostId ? { ...post, comments: [...post.comments, response.data] } : post
@@ -130,11 +124,10 @@ function Home() {
 
   const handleCreatePost = (event) => {
     event.preventDefault();
-    console.log("Creating post:", newPost); // Debug log
     axios.post('http://localhost:3001/api/posts', newPost)
       .then((response) => {
-        console.log("Post created:", response.data); // Debug log
         setBlogPosts((prevPosts) => [...prevPosts, response.data]);
+        setNewPosts((prevNewPosts) => [...prevNewPosts, response.data]);
         setNewPost({
           title: '',
           content: '',
@@ -150,6 +143,17 @@ function Home() {
 
   const handleToggleCreatePostModal = () => {
     setShowCreatePostModal((prevShow) => !prevShow);
+  };
+
+  const handleDeletePost = (postId) => {
+    axios.delete(`http://localhost:3001/api/posts/${postId}`)
+      .then(() => {
+        setBlogPosts((prevPosts) => prevPosts.filter(post => post.id !== postId));
+        setNewPosts((prevNewPosts) => prevNewPosts.filter(post => post.id !== postId));
+      })
+      .catch((error) => {
+        console.error('Error deleting post:', error);
+      });
   };
 
   if (isLoading) {
@@ -190,7 +194,6 @@ function Home() {
             path="/"
             element={
               <>
-                {/* New Posts Section */}
                 {newPosts.length > 0 && (
                   <section className="new-posts-section">
                     <h1>New Posts</h1>
@@ -201,37 +204,27 @@ function Home() {
                             <img src={post.image} alt={post.title} className="post-image" />
                           </Link>
                           <div className="post-content">
+                            <h2>{post.title}</h2>
                             <div className="post-actions">
-                              <div className="action-buttons">
-                                <FontAwesomeIcon
-                                  icon={faThumbsUp}
-                                  className="action-icon"
-                                  onClick={() => handleLike(post.id)}
-                                />
-                                <span>{post.likes}</span>
-                                <FontAwesomeIcon
-                                  icon={faComment}
-                                  className="action-icon"
-                                  onClick={() => {
-                                    setSelectedPostId(post.id);
-                                    setShowCommentModal(true);
-                                  }}
-                                />
-                              </div>
-                              <h2>{post.title}</h2>
-                              <p>{post.content}</p>
-                              <p>Posted on {post.date} by {post.author}</p>
-                            </div>
-
-                            <div className="comments">
-                              <h3>Comments:</h3>
-                              <ul>
-                                {post.comments && post.comments.map((comment) => (
-                                  <li key={comment.id}>
-                                    {comment.content}
-                                  </li>
-                                ))}
-                              </ul>
+                              <FontAwesomeIcon
+                                icon={faThumbsUp}
+                                className="action-icon"
+                                onClick={() => handleLike(post.id)}
+                              />
+                              <span>{post.likes}</span>
+                              <FontAwesomeIcon
+                                icon={faComment}
+                                className="action-icon"
+                                onClick={() => {
+                                  setSelectedPostId(post.id);
+                                  setShowCommentModal(true);
+                                }}
+                              />
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                className="action-icon"
+                                onClick={() => handleDeletePost(post.id)}
+                              />
                             </div>
                           </div>
                         </li>
@@ -240,7 +233,6 @@ function Home() {
                   </section>
                 )}
 
-                {/* Recent Blogs Section */}
                 <section className="recent-blogs-section">
                   <h1>Recent Blogs</h1>
                   <ul className="blog-posts">
@@ -251,38 +243,22 @@ function Home() {
                             <img src={post.image} alt={post.title} className="post-image" />
                           </Link>
                           <div className="post-content">
+                            <h2>{post.title}</h2>
                             <div className="post-actions">
-                              <div className="action-buttons">
-                                <FontAwesomeIcon
-                                  icon={faThumbsUp}
-                                  className="action-icon"
-                                  onClick={() => handleLike(post.id)}
-                                />
-                                <span>{post.likes}</span>
-                                <FontAwesomeIcon
-                                  icon={faComment}
-                                  className="action-icon"
-                                  onClick={() => {
-                                    setSelectedPostId(post.id);
-                                    setShowCommentModal(true);
-                                  }}
-                                />
-                                
-                              </div>
-                              <h2>{post.title}</h2>
-                              <p>{post.content}</p>
-                              <p>Posted on {post.date} by {post.author}</p>
-                            </div>
-
-                            <div className="comments">
-                              <h3>Comments:</h3>
-                              <ul>
-                                {post.comments && post.comments.map((comment) => (
-                                  <li key={comment.id}>
-                                    {comment.content}
-                                  </li>
-                                ))}
-                              </ul>
+                              <FontAwesomeIcon
+                                icon={faThumbsUp}
+                                className="action-icon"
+                                onClick={() => handleLike(post.id)}
+                              />
+                              <span>{post.likes}</span>
+                              <FontAwesomeIcon
+                                icon={faComment}
+                                className="action-icon"
+                                onClick={() => {
+                                  setSelectedPostId(post.id);
+                                  setShowCommentModal(true);
+                                }}
+                              />
                             </div>
                           </div>
                         </li>
