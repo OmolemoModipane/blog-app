@@ -166,13 +166,13 @@ body {
 
 /* Modal content */
 .modal-content {
-    background-color: #c380f2; /* Purple background */
+    background-color: #c380f2; 
     padding: 20px;
     border-radius: 8px;
     width: 80%;
     max-width: 500px;
     position: relative;
-    color: white; /* Text color for readability */
+    color: white; 
 }
 
 /* Close button */
@@ -184,7 +184,7 @@ body {
     cursor: pointer;
 }
 
-/* Form elements inside modal */
+
 .modal-content form {
     display: flex;
     flex-direction: column;
@@ -196,12 +196,12 @@ body {
     padding: 10px;
     box-sizing: border-box;
     border-radius: 4px;
-    border: 1px solid #ddd; /* Grey border */
+    border: 1px solid #ddd; 
 }
 
 .modal-content button {
     padding: 10px;
-    background-color: #888; /* Grey background for button */
+    background-color: #888; 
     color: white;
     border: none;
     cursor: pointer;
@@ -209,7 +209,7 @@ body {
 }
 
 .modal-content button:hover {
-    background-color: #555; /* Darker grey on hover */
+    background-color: #555; 
 }
 
 /* Blog post and comment modals */
@@ -224,13 +224,12 @@ body {
     padding: 10px;
     box-sizing: border-box;
     border-radius: 4px;
-    border: 1px solid #ddd; /* Grey border */
+    border: 1px solid #ddd; 
 }
 
 .blog-posts .comment-form button {
     padding: 10px;
-    background-color: #888; /* Grey background for button */
-    color: white;
+    background-color: #888; 
     border: none;
     cursor: pointer;
     border-radius: 4px;
@@ -238,14 +237,13 @@ body {
 }
 
 .blog-posts .comment-form button:hover {
-    background-color: #555; /* Darker grey on hover */
+    background-color: #555; 
 }
 
-/* Create post form styling */
+
 .create-post-form {
     margin-top: 20px;
-    background-color: #cd81f3; /* Purple background for form */
-    padding: 20px;
+    background-color: #cd81f3; 
     border-radius: 8px;
 }
 
@@ -260,12 +258,12 @@ body {
     padding: 10px;
     box-sizing: border-box;
     border-radius: 4px;
-    border: 1px solid #ddd; /* Grey border */
+    border: 1px solid #ddd; 
 }
 
 .create-post-form button {
     padding: 10px;
-    background-color: #888; /* Grey background for button */
+    background-color: #888; 
     color: white;
     border: none;
     cursor: pointer;
@@ -273,26 +271,15 @@ body {
 }
 
 .create-post-form button:hover {
-    background-color: #555; /* Darker grey on hover */
-}
+    background-color: #555; }
 
-/* Delete comment button */
-.delete-comment-button {
-    background: none;
-    border: none;
-    color: #d9534f;
-    cursor: pointer;
-    font-size: 16px;
-}
 
-.delete-comment-button:hover {
-    color: #c9302c;
-}
 
-/* Responsive adjustments */
+
+/* Responsiveness */
 @media (max-width: 768px) {
     .blog-posts .blog-post {
-        max-width: 100%; /* 1 post per row on smaller screens */
+        max-width: 100%; 
     }
 
     .navbar {
@@ -349,7 +336,6 @@ body {
     border-radius: 4px;
 }
 
-/* Add these styles to your styles.css */
 
 .new-posts-section {
     margin: 20px 0;
@@ -357,7 +343,7 @@ body {
   
   .new-posts-section h1 {
     font-size: 2em;
-    color: #6a0dad; /* Purple color */
+    color: #6a0dad; 
     margin-bottom: 10px;
   }
   
