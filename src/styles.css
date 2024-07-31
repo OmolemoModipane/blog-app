@@ -1,4 +1,4 @@
-/* General body styling */
+
 body {
     margin: 0;
     padding: 0;
@@ -8,7 +8,7 @@ body {
     background-image: url(https://i.pinimg.com/564x/92/82/0f/92820f1cd5f89a8683fc873557c52b86.jpg);
 }
 
-/* Full-width container without side margins */
+
 .container {
     width: 100%;
     margin: 0;
@@ -29,13 +29,14 @@ body {
 }
 
 .hero-section h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 10px;
     margin-top: 55px;
+    font-family: cursive;
 }
 
 .hero-section p {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
 }
 
 /* Navbar styling */
@@ -96,14 +97,14 @@ body {
     background-color: #777;
 }
 
-/* Blog posts styling */
+
 .blog-posts {
     list-style: none;
     padding: 0;
     margin: 20px 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; /* Space between blog posts */
+    gap: 20px;
 }
 
 .blog-posts .blog-post {
@@ -111,38 +112,40 @@ body {
     flex-direction: column;
     border: 1px solid #ddd;
     border-radius: 8px;
-    width: calc(33.333% - 20px); /* 3 posts per row with gap adjustment */
+    width: calc(33.333% - 25px); 
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: #f9f9f9;
     padding: 10px;
-    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for effects */
-    height: 500px; /* Adjusted to fit content */
-    overflow: hidden; /* Prevent content from overflowing */
+    transition: transform 0.3s, box-shadow 0.3s; 
+    height: 500px; 
+    overflow: hidden; 
+    color:  black;
 }
 
 .blog-posts .blog-post:hover {
-    transform: scale(1.05); /* Slightly enlarge the post */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    transform: scale(1.05); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
-/* Adjustments for images */
+
 .blog-posts .post-image {
     max-width: 100%;
-    height: 250px; /* Fixed height for images */
-    object-fit: cover; /* Maintain aspect ratio and cover the area */
+    height: 250px; 
+    object-fit: cover; 
     border-radius: 8px;
 }
 
-/* Position action buttons below the image */
+
 .blog-posts .post-content {
     display: flex;
     flex-direction: column;
-    flex: 1; /* Allow content to use remaining space */
+    flex: 1; 
+    background-color: #cd81f3;
 }
 
 .blog-posts .post-actions {
     display: flex;
-    flex-direction: column; /* Stack action buttons vertically */
+    flex-direction: column; 
     align-items: center;
     margin-top: 10px;
 }
@@ -379,8 +382,9 @@ body {
   
   .recent-blogs-section h1 {
     font-size: 2em;
-    color: #333;
+    color: white;
     margin-bottom: 10px;
+    font-family: fantasy;
   }
   
   .recent-blogs-section .blog-post {

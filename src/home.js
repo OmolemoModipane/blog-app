@@ -4,14 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Route, Routes, Link, useParams } from 'react-router-dom';
 import './styles.css';
-import Preloader from './Preloader'; // Import the Preloader component
+import Preloader from './Preloader'; 
 
 function BlogPostDetail({ blogPosts }) {
   const { id } = useParams();
   const [post, setPost] = useState(null);
 
   useEffect(() => {
+    console.log("Post ID from URL:", id); // Debug log
     const postDetail = blogPosts.find(post => post.id === parseInt(id));
+    console.log("Post Detail:", postDetail); // Debug log
     setPost(postDetail);
   }, [id, blogPosts]);
 
@@ -66,6 +68,7 @@ function Home() {
     axios.get('http://localhost:3001/api/posts')
       .then((response) => {
         const posts = response.data;
+        console.log("Fetched posts:", posts); // Debug log
         setBlogPosts(posts);
         setFilteredPosts(posts);
 
@@ -109,6 +112,7 @@ function Home() {
     if (selectedPostId !== null) {
       axios.post(`http://localhost:3001/api/posts/${selectedPostId}/comments`, { content: newComment })
         .then((response) => {
+          console.log("Comment added:", response.data); // Debug log
           setBlogPosts((prevPosts) =>
             prevPosts.map((post) =>
               post.id === selectedPostId ? { ...post, comments: [...post.comments, response.data] } : post
@@ -126,8 +130,10 @@ function Home() {
 
   const handleCreatePost = (event) => {
     event.preventDefault();
+    console.log("Creating post:", newPost); // Debug log
     axios.post('http://localhost:3001/api/posts', newPost)
       .then((response) => {
+        console.log("Post created:", response.data); // Debug log
         setBlogPosts((prevPosts) => [...prevPosts, response.data]);
         setNewPost({
           title: '',
@@ -175,8 +181,8 @@ function Home() {
         </nav>
 
         <section className="hero-section">
-          <h1>Welcome to My Blog</h1>
-          <p>Explore the latest posts and join the conversation</p>
+          <h1>You’ve Entered the Blog Zone – Hold On Tight!</h1>
+          <p>Beam yourself up to a galaxy of groovy posts and quirky content!</p>
         </section>
 
         <Routes>
@@ -189,7 +195,7 @@ function Home() {
                   <section className="new-posts-section">
                     <h1>New Posts</h1>
                     <ul className="blog-posts">
-                      {newPosts.slice(0, 4).map((post) => (
+                      {newPosts.map((post) => (
                         <li key={post.id} className="blog-post">
                           <Link to={`/post/${post.id}`}>
                             <img src={post.image} alt={post.title} className="post-image" />
@@ -239,7 +245,7 @@ function Home() {
                   <h1>Recent Blogs</h1>
                   <ul className="blog-posts">
                     {filteredPosts.length > 0 ? (
-                      filteredPosts.slice(0, 4).map((post) => (
+                      filteredPosts.map((post) => (
                         <li key={post.id} className="blog-post">
                           <Link to={`/post/${post.id}`}>
                             <img src={post.image} alt={post.title} className="post-image" />
@@ -261,6 +267,7 @@ function Home() {
                                     setShowCommentModal(true);
                                   }}
                                 />
+                                
                               </div>
                               <h2>{post.title}</h2>
                               <p>{post.content}</p>
@@ -285,66 +292,61 @@ function Home() {
                     )}
                   </ul>
                 </section>
-
-                {/* Create Post Modal */}
-                {showCreatePostModal && (
-                  <div className="modal">
-                    <div className="modal-content">
-                      <span className="close" onClick={handleToggleCreatePostModal}>&times;</span>
-                      <h2>Create a New Post</h2>
-                      <form onSubmit={handleCreatePost}>
-                        <input
-                          type="text"
-                          placeholder="Title"
-                          value={newPost.title}
-                          onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, title: e.target.value }))}
-                        />
-                        <textarea
-                          placeholder="Content"
-                          value={newPost.content}
-                          onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, content: e.target.value }))}
-                        />
-                        <input
-                          type="text"
-                          placeholder="Author"
-                          value={newPost.author}
-                          onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, author: e.target.value }))}
-                        />
-                        <input
-                          type="text"
-                          placeholder="Image URL"
-                          value={newPost.image}
-                          onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, image: e.target.value }))}
-                        />
-                        <button type="submit">Create Post</button>
-                      </form>
-                    </div>
-                  </div>
-                )}
-
-                {/* Comment Modal */}
-                {showCommentModal && (
-                  <div className="modal">
-                    <div className="modal-content">
-                      <span className="close" onClick={() => setShowCommentModal(false)}>&times;</span>
-                      <h2>Add a Comment</h2>
-                      <textarea
-                        placeholder="Add a comment"
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                      />
-                      <button onClick={handleAddComment}>Post</button>
-                    </div>
-                  </div>
-                )}
               </>
             }
           />
-          <Route
-            path="/post/:id"
-            element={<BlogPostDetail blogPosts={blogPosts} />}
-          />
+          <Route path="/post/:id" element={<BlogPostDetail blogPosts={blogPosts} />} />
         </Routes>
+
+        {showCreatePostModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Create New Post</h2>
+              <form onSubmit={handleCreatePost}>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={newPost.title}
+                  onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+                />
+                <textarea
+                  placeholder="Content"
+                  value={newPost.content}
+                  onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="Author"
+                  value={newPost.author}
+                  onChange={(e) => setNewPost({ ...newPost, author: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="Image URL"
+                  value={newPost.image}
+                  onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
+                />
+                <button type="submit">Create Post</button>
+                <button type="button" onClick={handleToggleCreatePostModal}>Close</button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {showCommentModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Add Comment</h2>
+              <textarea
+                placeholder="Add your comment here"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              <button onClick={handleAddComment}>Add Comment</button>
+              <button onClick={() => setShowCommentModal(false)}>Close</button>
+            </div>
+          </div>
+        )}
       </div>
     </Router>
   );
