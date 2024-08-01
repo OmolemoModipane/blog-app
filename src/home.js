@@ -62,7 +62,7 @@ function Home() {
       setIsLoading(false);
     }, 5000);
 
-    axios.get('http://localhost:3001/api/posts')
+    axios.get('https://blog-platform-qxan.onrender.com/api/posts')
       .then((response) => {
         const posts = response.data;
         setBlogPosts(posts);
@@ -90,7 +90,7 @@ function Home() {
   }, [searchTerm, blogPosts]);
 
   const handleLike = (postId) => {
-    axios.post(`http://localhost:3001/api/posts/${postId}/like`)
+    axios.post(`https://blog-platform-qxan.onrender.com/api/posts/${postId}/like`)
       .then((response) => {
         setBlogPosts((prevPosts) =>
           prevPosts.map((post) =>
@@ -105,7 +105,7 @@ function Home() {
 
   const handleAddComment = () => {
     if (selectedPostId !== null) {
-      axios.post(`http://localhost:3001/api/posts/${selectedPostId}/comments`, { content: newComment })
+      axios.post(`https://blog-platform-qxan.onrender.com/api/posts/${selectedPostId}/comments`, { content: newComment })
         .then((response) => {
           setBlogPosts((prevPosts) =>
             prevPosts.map((post) =>
@@ -124,7 +124,7 @@ function Home() {
 
   const handleCreatePost = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:3001/api/posts', newPost)
+    axios.post('https://blog-platform-qxan.onrender.com/api/posts', newPost)
       .then((response) => {
         setBlogPosts((prevPosts) => [...prevPosts, response.data]);
         setNewPosts((prevNewPosts) => [...prevNewPosts, response.data]);
@@ -146,7 +146,7 @@ function Home() {
   };
 
   const handleDeletePost = (postId) => {
-    axios.delete(`http://localhost:3001/api/posts/${postId}`)
+    axios.delete(`https://blog-platform-qxan.onrender.com/api/posts/${postId}`)
       .then(() => {
         setBlogPosts((prevPosts) => prevPosts.filter(post => post.id !== postId));
         setNewPosts((prevNewPosts) => prevNewPosts.filter(post => post.id !== postId));
