@@ -165,7 +165,7 @@ function Home() {
       <div className="container">
         <nav className="navbar">
           <div className="logo">
-            <img src="logo.png" alt="Blog Logo" />
+            <img src="logo192.png" alt="Blog Logo" />
           </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
