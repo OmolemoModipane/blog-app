@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { BrowserRouter as Router, Route, Routes, Link, useParams, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useParams } from 'react-router-dom';
 import './styles.css';
 import Preloader from './Preloader';
 
@@ -275,57 +275,69 @@ function Home() {
         </Routes>
 
         {showCreatePostModal && (
-          <div className="modal">
-            <div className="modal-content">
-              <h2>Create New Post</h2>
-              <form onSubmit={handleCreatePost}>
-                <input
-                  type="text"
-                  placeholder="Title"
-                  value={newPost.title}
-                  onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                />
-                <textarea
-                  placeholder="Content"
-                  value={newPost.content}
-                  onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                />
-                <input
-                  type="text"
-                  placeholder="Author"
-                  value={newPost.author}
-                  onChange={(e) => setNewPost({ ...newPost, author: e.target.value })}
-                />
-                <input
-                  type="text"
-                  placeholder="Image URL"
-                  value={newPost.image}
-                  onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
-                />
-                <button type="submit">Create Post</button>
-                <button type="button" onClick={handleToggleCreatePostModal}>Close</button>
-              </form>
-            </div>
-          </div>
-        )}
+              <div className="modal">
+                <div className="modal-content">
+                  <h2>Create New Post</h2>
+                  <form onSubmit={handleCreatePost}>
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={newPost.title}
+                      onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+                    />
+                    <textarea
+                      placeholder="Content"
+                      value={newPost.content}
+                      onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Author"
+                      value={newPost.author}
+                      onChange={(e) => setNewPost({ ...newPost, author: e.target.value })}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Image URL"
+                      value={newPost.image}
+                      onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
+                    />
+                    <button type="submit">Create Post</button>
+                    <button type="button" onClick={handleToggleCreatePostModal}>Close</button>
+                  </form>
+                </div>
+              </div>
+            )}
 
-        {showCommentModal && (
-          <div className="modal">
-            <div className="modal-content">
-              <h2>Add Comment</h2>
-              <textarea
-                placeholder="Add your comment here"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              />
-              <button onClick={handleAddComment}>Add Comment</button>
-              <button onClick={() => setShowCommentModal(false)}>Close</button>
-            </div>
+            {showCommentModal && (
+              <div className="modal">
+                <div className="modal-content">
+                  <h2>Add Comment</h2>
+                  <textarea
+                    placeholder="Add your comment here"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                  />
+                  <button onClick={handleAddComment}>Add Comment</button>
+                  <button onClick={() => setShowCommentModal(false)}>Close</button>
+                </div>
+              </div>
+            )}
+            <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-logo">
+            <img src="logo.png" alt="Blog Logo" />
           </div>
-        )}
-      </div>
-    </Router>
-  );
-}
+          <div className="footer-details">
+            <p>&copy; 2023 Blog Zone Created by: Omolemo Modipane</p>
+            <p>Contact Us: <a href="mailto:info@blogzone.com">info@blogzone.com</a></p>
+            <p>Follow Us: Facebook | Twitter | Instagram </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+        </Router>
+      );
+    }
 
-export default Home;
+    export default Home;
