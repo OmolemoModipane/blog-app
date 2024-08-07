@@ -6,8 +6,8 @@ body {
     width: 100vw; /* Ensure full viewport width */
     overflow-x: hidden; /* Prevent horizontal scroll */
     background-image: url(https://i.pinimg.com/736x/a8/99/1f/a8991f92fa61b5e3247f2af7877d1940.jpg);
+    background-size: cover; /* Ensure the background image covers the entire body */
 }
-
 
 .container {
     width: 100%;
@@ -22,6 +22,7 @@ body {
     padding: 40px 20px;
     background-image: url(https://i.pinimg.com/736x/5d/87/79/5d8779dec18b7333ab5ccb5a9fa888df.jpg);
     background-size: cover;
+    background-position: center;
     color: white;
     position: relative; 
     z-index: 1; 
@@ -96,7 +97,6 @@ body {
     background-color: #777;
 }
 
-
 .blog-posts {
     list-style: none;
     padding: 0;
@@ -118,7 +118,7 @@ body {
     transition: transform 0.3s, box-shadow 0.3s; 
     height: 400px; 
     overflow: hidden; 
-    color:  black;
+    color: black;
 }
 
 .blog-posts .blog-post:hover {
@@ -126,14 +126,12 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
-
 .blog-posts .post-image {
     max-width: 100%;
     height: 300px; 
     object-fit: cover; 
     border-radius: 8px;
 }
-
 
 .blog-posts .post-content {
     display: flex;
@@ -182,7 +180,6 @@ body {
     font-size: 24px;
     cursor: pointer;
 }
-
 
 .modal-content form {
     display: flex;
@@ -239,7 +236,6 @@ body {
     background-color: #555; 
 }
 
-
 .create-post-form {
     margin-top: 20px;
     background-color: #cd81f3; 
@@ -270,15 +266,13 @@ body {
 }
 
 .create-post-form button:hover {
-    background-color: #555; }
-
-
-
+    background-color: #555; 
+}
 
 /* Responsiveness */
 @media (max-width: 768px) {
     .blog-posts .blog-post {
-        max-width: 100%; 
+        width: calc(50% - 20px); /* Adjust for smaller screens */
     }
 
     .navbar {
@@ -294,6 +288,38 @@ body {
 
     .navbar .nav-links li {
         margin: 5px 0;
+    }
+
+    .hero-section {
+        height: auto;
+        padding: 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+        margin-top: 20px;
+    }
+
+    .hero-section p {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-posts .blog-post {
+        width: 100%; /* Single column layout on smallest screens */
+    }
+
+    .hero-section h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+
+    .navbar .nav-links {
+        align-items: flex-start;
     }
 }
 
@@ -335,94 +361,93 @@ body {
     border-radius: 4px;
 }
 
-
 .new-posts-section {
     margin: 20px 0;
-  }
-  
-  .new-posts-section h1 {
+}
+
+.new-posts-section h1 {
     font-size: 2em;
     color: #555; 
     margin-bottom: 10px;
     font-family: 'Cosmic Sans';
-  }
-  
-  .new-posts-section .blog-post {
+}
+
+.new-posts-section .blog-post {
     margin-bottom: 20px;
-  }
-  
-  .new-posts-section .blog-post img {
+}
+
+.new-posts-section .blog-post img {
     width: 100%;
     height: auto;
-  }
-  
-  .new-posts-section .post-content {
+}
+
+.new-posts-section .post-content {
     padding: 10px;
     background: #f9f9f9;
     border-radius: 8px;
-  }
-  
-  .recent-blogs-section {
+}
+
+.recent-blogs-section {
     margin: 20px 0;
-  }
-  
-  .recent-blogs-section h1 {
+}
+
+.recent-blogs-section h1 {
     font-size: 2em;
     color: #555;
     margin-bottom: 10px;
     font-family: 'Cosmic Sans';
-  }
-  
-  .recent-blogs-section .blog-post {
+}
+
+.recent-blogs-section .blog-post {
     margin-bottom: 20px;
-  }
-  
-  .recent-blogs-section .blog-post img {
+}
+
+.recent-blogs-section .blog-post img {
     width: 100%;
     height: auto;
-  }
-  
-  .recent-blogs-section .post-content {
+}
+
+.recent-blogs-section .post-content {
     padding: 10px;
     background: #f9f9f9;
     border-radius: 8px;
-  }
-  
-  .footer {
+}
+
+.footer {
     background-color: #333;
     color: #fff;
     padding: 20px;
     text-align: center;
-  }
-  
-  .footer-content {
+}
+
+.footer-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .footer-logo {
+}
+
+.footer-logo {
     margin-right: 20px;
-  }
-  
-  .footer-logo img {
+}
+
+.footer-logo img {
     width: 80px;
     height: 80px;
-  }
-  
-  .footer-details {
+}
+
+.footer-details {
     font-size: 14px;
-  }
-  
-  .footer-details p {
+}
+
+.footer-details p {
     margin-bottom: 10px;
-  }
-  
-  .footer-details a {
+}
+
+.footer-details a {
     color: #fff;
     text-decoration: none;
-  }
-  
-  .footer-details a:hover {
+}
+
+.footer-details a:hover {
     color: #ccc;
-  }
+}
