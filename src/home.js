@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useParams } from 'react-router-dom';
 import './styles.css';
 import Preloader from './Preloader';
-import LoginPage from './LoginPage'; // Assuming LoginPage component exists
-import SignupPage from './SignupPage'; // Assuming SignupPage component exists
 
 function BlogPostDetail({ blogPosts }) {
   const { id } = useParams();
@@ -53,11 +51,11 @@ function Home() {
   });
   const [newComment, setNewComment] = useState('');
   const [selectedPostId, setSelectedPostId] = useState(null);
-  const [showCreatePostModal, setShowCreatePostModal] = useState(false);
+  const [showCreatePostModal, setShowCreatePostModal] = useState(false); 
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentModal, setShowCommentModal] = useState(false);
+
   const [newPosts, setNewPosts] = useState([]);
-  const [user, setUser] = useState(null); // User state to manage logged-in user
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -75,15 +73,6 @@ function Home() {
       })
       .catch((error) => {
         console.error('Error fetching posts:', error);
-      });
-
-    // Check if user is logged in
-    axios.get('https://blog-platform-qxan.onrender.com/api/auth/me', { withCredentials: true })
-      .then((response) => {
-        setUser(response.data.user);
-      })
-      .catch((error) => {
-        console.error('Error fetching user info:', error);
       });
 
     return () => clearTimeout(timer);
@@ -167,16 +156,6 @@ function Home() {
       });
   };
 
-  const handleLogout = () => {
-    axios.post('https://blog-platform-qxan.onrender.com/api/auth/logout', {}, { withCredentials: true })
-      .then(() => {
-        setUser(null); // Clear user info on logout
-      })
-      .catch((error) => {
-        console.error('Error logging out:', error);
-      });
-  };
-
   if (isLoading) {
     return <Preloader />;
   }
@@ -190,17 +169,6 @@ function Home() {
           </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
-            {user ? (
-              <>
-                <li><Link to="/profile">{user.name}</Link></li>
-                <li><Link to="#" onClick={handleLogout}>Logout</Link></li>
-              </>
-            ) : (
-              <>
-                <li><Link to="/login">Login</Link></li>
-                <li><Link to="/signup">Signup</Link></li>
-              </>
-            )}
             <li><Link to="#" onClick={handleToggleCreatePostModal}>Create Post</Link></li>
             <li>
               <form onSubmit={(e) => e.preventDefault()}>
@@ -252,13 +220,11 @@ function Home() {
                                   setShowCommentModal(true);
                                 }}
                               />
-                              {user && (
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className="action-icon"
-                                  onClick={() => handleDeletePost(post.id)}
-                                />
-                              )}
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                className="action-icon"
+                                onClick={() => handleDeletePost(post.id)}
+                              />
                             </div>
                           </div>
                         </li>
@@ -306,75 +272,72 @@ function Home() {
             }
           />
           <Route path="/post/:id" element={<BlogPostDetail blogPosts={blogPosts} />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/profile" element={<ProfilePage />} /> {/* Assuming ProfilePage component exists */}
         </Routes>
 
         {showCreatePostModal && (
-          <div className="modal">
-            <div className="modal-content">
-              <h2>Create New Post</h2>
-              <form onSubmit={handleCreatePost}>
-                <input
-                  type="text"
-                  placeholder="Title"
-                  value={newPost.title}
-                  onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                />
-                <textarea
-                  placeholder="Content"
-                  value={newPost.content}
-                  onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                />
-                <input
-                  type="text"
-                  placeholder="Author"
-                  value={newPost.author}
-                  onChange={(e) => setNewPost({ ...newPost, author: e.target.value })}
-                />
-                <input
-                  type="text"
-                  placeholder="Image URL"
-                  value={newPost.image}
-                  onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
-                />
-                <button type="submit">Create Post</button>
-                <button type="button" onClick={handleToggleCreatePostModal}>Close</button>
-              </form>
-            </div>
-          </div>
-        )}
+              <div className="modal">
+                <div className="modal-content">
+                  <h2>Create New Post</h2>
+                  <form onSubmit={handleCreatePost}>
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={newPost.title}
+                      onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+                    />
+                    <textarea
+                      placeholder="Content"
+                      value={newPost.content}
+                      onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Author"
+                      value={newPost.author}
+                      onChange={(e) => setNewPost({ ...newPost, author: e.target.value })}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Image URL"
+                      value={newPost.image}
+                      onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
+                    />
+                    <button type="submit">Create Post</button>
+                    <button type="button" onClick={handleToggleCreatePostModal}>Close</button>
+                  </form>
+                </div>
+              </div>
+            )}
 
-        {showCommentModal && (
-          <div className="modal">
-            <div className="modal-content">
-              <h2>Add Comment</h2>
-              <textarea
-                placeholder="Add your comment here"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              />
-              <button onClick={handleAddComment}>Add Comment</button>
-              <button onClick={() => setShowCommentModal(false)}>Close</button>
-            </div>
+            {showCommentModal && (
+              <div className="modal">
+                <div className="modal-content">
+                  <h2>Add Comment</h2>
+                  <textarea
+                    placeholder="Add your comment here"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                  />
+                  <button onClick={handleAddComment}>Add Comment</button>
+                  <button onClick={() => setShowCommentModal(false)}>Close</button>
+                </div>
+              </div>
+            )}
+            <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-logo">
+            <img src="logo.png" alt="Blog Logo" />
           </div>
-        )}
-        <footer className="footer">
-          <div className="footer-content">
-            <div className="footer-logo">
-              <img src="logo.png" alt="Blog Logo" />
-            </div>
-            <div className="footer-details">
-              <p>&copy; 2023 Blog Zone Created by: Omolemo Modipane</p>
-              <p>Contact Us: <a href="mailto:info@blogzone.com">info@blogzone.com</a></p>
-              <p>Follow Us: Facebook | Twitter | Instagram </p>
-            </div>
+          <div className="footer-details">
+            <p>&copy; 2023 Blog Zone Created by: Omolemo Modipane</p>
+            <p>Contact Us: <a href="mailto:info@blogzone.com">info@blogzone.com</a></p>
+            <p>Follow Us: Facebook | Twitter | Instagram </p>
           </div>
-        </footer>
-      </div>
-    </Router>
-  );
-}
+        </div>
+      </footer>
+    </div>
+        </Router>
+      );
+    }
 
-export default Home;
+    export default Home;
