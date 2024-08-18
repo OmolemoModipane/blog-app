@@ -156,9 +156,7 @@ function Home() {
       });
   };
 
-  if (isLoading) {
-    return <Preloader />;
-  }
+ 
 
   return (
     <Router>
