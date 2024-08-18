@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Route, Routes, Link, useParams } from 'react-router-dom';
 import './styles.css';
-import Preloader from './Preloader';
+
 
 function BlogPostDetail({ blogPosts }) {
   const { id } = useParams();
@@ -62,7 +62,7 @@ function Home() {
       setIsLoading(false);
     }, 5000);
 
-    axios.get('https://blog-platform-qxan.onrender.com/api/posts')
+    axios.get('https://blog-platform-2.onrender.com/api/posts')
       .then((response) => {
         const posts = response.data;
         setBlogPosts(posts);
@@ -90,7 +90,7 @@ function Home() {
   }, [searchTerm, blogPosts]);
 
   const handleLike = (postId) => {
-    axios.post(`https://blog-platform-qxan.onrender.com/api/posts/${postId}/like`)
+    axios.post(`https://blog-platform-2.onrender.com/api/posts/${postId}/like`)
       .then((response) => {
         setBlogPosts((prevPosts) =>
           prevPosts.map((post) =>
@@ -105,7 +105,7 @@ function Home() {
 
   const handleAddComment = () => {
     if (selectedPostId !== null) {
-      axios.post(`https://blog-platform-qxan.onrender.com/api/posts/${selectedPostId}/comments`, { content: newComment })
+      axios.post(`https://blog-platform-2.onrender.com/${selectedPostId}/comments`, { content: newComment })
         .then((response) => {
           setBlogPosts((prevPosts) =>
             prevPosts.map((post) =>
@@ -124,7 +124,7 @@ function Home() {
 
   const handleCreatePost = (event) => {
     event.preventDefault();
-    axios.post('https://blog-platform-qxan.onrender.com/api/posts', newPost)
+    axios.post('https://blog-platform-2.onrender.com/api/posts', newPost)
       .then((response) => {
         setBlogPosts((prevPosts) => [...prevPosts, response.data]);
         setNewPosts((prevNewPosts) => [...prevNewPosts, response.data]);
@@ -146,7 +146,7 @@ function Home() {
   };
 
   const handleDeletePost = (postId) => {
-    axios.delete(`https://blog-platform-qxan.onrender.com/api/posts/${postId}`)
+    axios.delete(`https://blog-platform-2.onrender.com/api/posts/${postId}`)
       .then(() => {
         setBlogPosts((prevPosts) => prevPosts.filter(post => post.id !== postId));
         setNewPosts((prevNewPosts) => prevNewPosts.filter(post => post.id !== postId));
